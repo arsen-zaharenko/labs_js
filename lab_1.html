@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	</head>
+	<body>
+	<script>
+		let array = []
+		let i = 0
+		let sum = 0
+
+		for (;;) {
+			let element = prompt('Введите число')
+			if (element == '') {
+				break
+			}
+			array.push(+element)
+			sum += +element
+			i++;
+		}
+
+		for (let j = 0; j < i-1; j++)        
+			for (k = 0; k < i-j-1; k++)
+				if (array[k] > array[k + 1]) {
+					let x = array[k]
+					array[k] = array[k + 1]
+					array[k + 1] = x	
+				}			
+
+		s = ''
+
+		for (let j = 0; j < i; j++) {
+			s += array[j] + ' '
+		}
+
+		alert(`Отсортированный массив: ${s}\nМинимальный элемент: ${array[0]}\nМаксимальный элемент: ${array[i-1]}\nСумма элементов массива: ${sum}`)
+	</script>
+	</body>
+</html>
