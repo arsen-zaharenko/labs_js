@@ -7,18 +7,22 @@
 	<p>Фамилия: <input type="text" id="surname"></p>
 	<p>Возраст: <input type="number" id="age"></p>
 	<p>Средний балл: <input type="number" id="avgMark"></p>
-	<button>Добавить</button>
-	<button>Создать таблицу</button>
+	<button onclick="add()">Добавить</button>
+	<button onclick="createTable()">Создать таблицу</button>
 	<script>
-		let array = []
-		let student = {
-			"name": name,
-			"surname": surname,
-			"age": age,
-			"avgMark": avgMark
+		function add() {
+			let array = []
+			let student = {
+				"name": name
+				"surname": surname,
+				"age": age,
+				"avgMark": avgMark
+			}
+			alert(student["name"])
 		}
-		
+		function createTable() {}
 	</script>
 	</body>
 </html>
+
 
