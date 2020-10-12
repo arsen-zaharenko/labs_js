@@ -10,18 +10,22 @@
 	<button onclick="add()">Добавить</button>
 	<button onclick="createTable()">Создать таблицу</button>
 	<script>
-		let array = []
+		let array = [];
 		function add() {
 			let student = {
 				"name": document.querySelector('#name').value,
 				"surname": document.querySelector('#surname').value,
 				"age": document.querySelector('#age').value,
 				"avgMark": document.querySelector('#avgMark').value
-			}
-			alert(student["name"] + student["surname"] + student["age"] + student["avgMark"])
+			};
+			array.push(student);
 		}
-		function createTable() {}
+		function createTable() {
+			for (let i = 0; i < array.length; i++){ 
+			alert(array[i]["name"]+' '+array[i]["surname"]+' '+array[i]["age"]+' '+array[i]["avgMark"]);
+			}
+		}
+		
 	</script>
 	</body>
 </html>
-
