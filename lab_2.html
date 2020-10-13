@@ -9,6 +9,7 @@
 	<p>Средний балл: <input type="number" id="avgMark"></p>
 	<button onclick="add()">Добавить</button>
 	<button onclick="createTable()">Создать таблицу</button>
+	<button onclick="countAvgMark()">Узнать средний балл всех студентов</button>
 	<script>
 		let array = [];
 		function add() {
@@ -20,11 +21,12 @@
 			};
 			array.push(student);
 		}
+
 		function createTable() {
 			let table = document.getElementById("table");
 			if (table != null) table.parentNode.removeChild(table);
 			let body = document.getElementById("body");
-			
+
 			table = document.createElement("table");
 			let data = document.createElement("tr");
 			let name = document.createElement("td");
@@ -46,6 +48,7 @@
 
 			for (let i = 0; i < array.length; i++){ 
 				let row = document.createElement("tr");
+				row.setAttribute("id", i);
 				let cellName = document.createElement("td");
 				let cellSurname = document.createElement("td");
 				let cellAge = document.createElement("td");
@@ -67,6 +70,14 @@
 			body.appendChild(table);
 			table.setAttribute("border", "2");
 			table.setAttribute("id", "table");
+		}
+		function countAvgMark(){
+			let num = +document.getElementById("table").lastChild.id;
+			let sum = 0;
+			for (let i = 0; i <= num; i++){
+				sum += +document.getElementById(i).lastChild.innerHTML;
+			}
+			alert(`Средний балл всех студентов: ${(sum / (num + 1)).toFixed(1)}`);
 		}
 	</script>
 	</body>
