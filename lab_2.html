@@ -2,7 +2,7 @@
 <html>
 	<head>
 	</head>
-	<body>
+	<body id="body">
 	<p>Имя: <input type="text" id="name"></p>
 	<p>Фамилия: <input type="text" id="surname"></p>
 	<p>Возраст: <input type="number" id="age"></p>
@@ -21,11 +21,53 @@
 			array.push(student);
 		}
 		function createTable() {
+			let table = document.getElementById("table");
+			if (table != null) table.parentNode.removeChild(table);
+			let body = document.getElementById("body");
+			
+			table = document.createElement("table");
+			let data = document.createElement("tr");
+			let name = document.createElement("td");
+			let surname = document.createElement("td");
+			let age = document.createElement("td");
+			let avgMark = document.createElement("td");
+
+			name.appendChild(document.createTextNode("Имя"));
+			surname.appendChild(document.createTextNode("Фамилия"));
+			age.appendChild(document.createTextNode("Возраст"));
+			avgMark.appendChild(document.createTextNode("Средний балл"));
+
+			data.appendChild(name);
+			data.appendChild(surname);
+			data.appendChild(age);
+			data.appendChild(avgMark);
+
+			table.appendChild(data);
+
 			for (let i = 0; i < array.length; i++){ 
-			alert(array[i]["name"]+' '+array[i]["surname"]+' '+array[i]["age"]+' '+array[i]["avgMark"]);
+				let row = document.createElement("tr");
+				let cellName = document.createElement("td");
+				let cellSurname = document.createElement("td");
+				let cellAge = document.createElement("td");
+				let cellAvgMark = document.createElement("td");
+
+				cellName.appendChild(document.createTextNode(array[i]["name"]));
+				cellSurname.appendChild(document.createTextNode(array[i]["surname"]));
+				cellAge.appendChild(document.createTextNode(array[i]["age"]));
+				cellAvgMark.appendChild(document.createTextNode(array[i]["avgMark"]));
+				
+				row.appendChild(cellName);
+				row.appendChild(cellSurname);
+				row.appendChild(cellAge);
+				row.appendChild(cellAvgMark);
+
+				table.appendChild(row);
 			}
+
+			body.appendChild(table);
+			table.setAttribute("border", "2");
+			table.setAttribute("id", "table");
 		}
-		
 	</script>
 	</body>
 </html>
