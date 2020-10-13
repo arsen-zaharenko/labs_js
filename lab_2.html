@@ -7,12 +7,12 @@
 	<p>Фамилия: <input type="text" id="surname"></p>
 	<p>Возраст: <input type="number" id="age"></p>
 	<p>Средний балл: <input type="number" id="avgMark"></p>
-	<button onclick="add()">Добавить</button>
+	<button onclick="addStudent()">Добавить</button>
 	<button onclick="createTable()">Создать таблицу</button>
 	<button onclick="countAvgMark()">Узнать средний балл всех студентов</button>
 	<script>
 		let array = [];
-		function add() {
+		function addStudent() {
 			let student = {
 				"name": document.querySelector('#name').value,
 				"surname": document.querySelector('#surname').value,
