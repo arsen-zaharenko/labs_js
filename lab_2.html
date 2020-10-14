@@ -7,78 +7,85 @@
 	<p>Фамилия: <input type="text" id="surname"></p>
 	<p>Возраст: <input type="number" id="age"></p>
 	<p>Средний балл: <input type="number" id="avgMark"></p>
-	<button onclick="addStudent()">Добавить</button>
-	<button onclick="createTable()">Создать таблицу</button>
-	<button onclick="countAvgMark()">Узнать средний балл всех студентов</button>
+	<button onclick="tableModule.addStudent()">Добавить</button>
+	<button onclick="tableModule.createTable()">Создать таблицу</button>
+	<button onclick="tableModule.countAvgMark()">Узнать средний балл всех студентов</button>
 	<script>
-		let array = [];
-		function addStudent() {
-			let student = {
-				"name": document.querySelector('#name').value,
-				"surname": document.querySelector('#surname').value,
-				"age": document.querySelector('#age').value,
-				"avgMark": document.querySelector('#avgMark').value
-			};
-			array.push(student);
-		}
-
-		function createTable() {
-			let table = document.getElementById("table");
-			if (table != null) table.parentNode.removeChild(table);
-			let body = document.getElementById("body");
-
-			table = document.createElement("table");
-			let data = document.createElement("tr");
-			let name = document.createElement("td");
-			let surname = document.createElement("td");
-			let age = document.createElement("td");
-			let avgMark = document.createElement("td");
-
-			name.appendChild(document.createTextNode("Имя"));
-			surname.appendChild(document.createTextNode("Фамилия"));
-			age.appendChild(document.createTextNode("Возраст"));
-			avgMark.appendChild(document.createTextNode("Средний балл"));
-
-			data.appendChild(name);
-			data.appendChild(surname);
-			data.appendChild(age);
-			data.appendChild(avgMark);
-
-			table.appendChild(data);
-
-			for (let i = 0; i < array.length; i++){ 
-				let row = document.createElement("tr");
-				row.setAttribute("id", i);
-				let cellName = document.createElement("td");
-				let cellSurname = document.createElement("td");
-				let cellAge = document.createElement("td");
-				let cellAvgMark = document.createElement("td");
-
-				cellName.appendChild(document.createTextNode(array[i]["name"]));
-				cellSurname.appendChild(document.createTextNode(array[i]["surname"]));
-				cellAge.appendChild(document.createTextNode(array[i]["age"]));
-				cellAvgMark.appendChild(document.createTextNode(array[i]["avgMark"]));
-				
-				row.appendChild(cellName);
-				row.appendChild(cellSurname);
-				row.appendChild(cellAge);
-				row.appendChild(cellAvgMark);
-
-				table.appendChild(row);
+		let tableModule = (function() {
+			let array = [];
+			function addStudent() {
+				let student = {
+					"name": document.querySelector('#name').value,
+					"surname": document.querySelector('#surname').value,
+					"age": document.querySelector('#age').value,
+					"avgMark": document.querySelector('#avgMark').value
+				};
+				array.push(student);
 			}
 
-			body.appendChild(table);
-			table.setAttribute("border", "2");
-			table.setAttribute("id", "table");
-		}
-		function countAvgMark(){
-			let num = +document.getElementById("table").lastChild.id;
-			let sum = 0;
-			for (let i = 0; i <= num; i++){
-				sum += +document.getElementById(i).lastChild.innerHTML;
+			function createTable() {
+				let table = document.getElementById("table");
+				if (table != null) table.parentNode.removeChild(table);
+				let body = document.getElementById("body");
+
+				table = document.createElement("table");
+				let data = document.createElement("tr");
+				let name = document.createElement("td");
+				let surname = document.createElement("td");
+				let age = document.createElement("td");
+				let avgMark = document.createElement("td");
+
+				name.appendChild(document.createTextNode("Имя"));
+				surname.appendChild(document.createTextNode("Фамилия"));
+				age.appendChild(document.createTextNode("Возраст"));
+				avgMark.appendChild(document.createTextNode("Средний балл"));
+
+				data.appendChild(name);
+				data.appendChild(surname);
+				data.appendChild(age);
+				data.appendChild(avgMark);
+
+				table.appendChild(data);
+
+				for (let i = 0; i < array.length; i++){ 
+					let row = document.createElement("tr");
+					row.setAttribute("id", i);
+					let cellName = document.createElement("td");
+					let cellSurname = document.createElement("td");
+					let cellAge = document.createElement("td");
+					let cellAvgMark = document.createElement("td");
+
+					cellName.appendChild(document.createTextNode(array[i]["name"]));
+					cellSurname.appendChild(document.createTextNode(array[i]["surname"]));
+					cellAge.appendChild(document.createTextNode(array[i]["age"]));
+					cellAvgMark.appendChild(document.createTextNode(array[i]["avgMark"]));
+					
+					row.appendChild(cellName);
+					row.appendChild(cellSurname);
+					row.appendChild(cellAge);
+					row.appendChild(cellAvgMark);
+
+					table.appendChild(row);
+				}
+
+				body.appendChild(table);
+				table.setAttribute("border", "2");
+				table.setAttribute("id", "table");
 			}
-			alert(`Средний балл всех студентов: ${(sum / (num + 1)).toFixed(1)}`);
-		}
+			function countAvgMark(){
+				let num = +document.getElementById("table").lastChild.id;
+				let sum = 0;
+				for (let i = 0; i <= num; i++){
+					sum += +document.getElementById(i).lastChild.innerHTML;
+				}
+				alert(`Средний балл всех студентов: ${(sum / (num + 1)).toFixed(1)}`);
+			}
+			return {
+				addStudent: addStudent,
+				createTable: createTable,
+				countAvgMark: countAvgMark
+			}
+		})();
 	</script>
 	</body>
 </html>
