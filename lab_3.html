@@ -105,7 +105,16 @@
 			}
 
 			function editRow(obj){
-				alert(321);
+				idEditElement = +obj.name.slice(1);
+				let editElement = array[idEditElement];
+				
+				editElement["name"] = prompt("Редактировать поле Имя:", editElement["name"]);
+				editElement["surname"] = prompt("Редактировать поле Фамилия:", editElement["surname"]);
+				editElement["age"] = +prompt("Редактировать поле Возраст:", editElement["age"]);
+				editElement["avgMark"] = +prompt("Редактировать поле Средний балл:", editElement["avgMark"]);
+				array[idEditElement] = editElement
+
+				addStudentAndCreateTable(true);
 			}
 
 			function deleteRow(obj){
