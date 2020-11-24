@@ -1,0 +1,32 @@
+[
+	{
+		"name": "Name0",
+		"surname": "Surname0",
+		"age": 19,
+		"avgMark": 5.4
+	},
+	{
+		"name": "Name1",
+		"surname": "Surname1",
+		"age": 20,
+		"avgMark": 9.2
+	},
+	{
+		"name": "Name2",
+		"surname": "Surname2",
+		"age": 24,
+		"avgMark": 6.0
+	},
+	{
+		"name": "Name3",
+		"surname": "Surname3",
+		"age": 18,
+		"avgMark": 7.7
+	},
+	{
+		"name": "Name4",
+		"surname": "Surname4",
+		"age": 23,
+		"avgMark": 8.1
+	}
+]
