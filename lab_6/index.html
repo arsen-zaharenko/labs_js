@@ -1,17 +1,3 @@
-Глава 1. Введение в React
--Что такое React. Первое приложение
--Основы JSX
--JSX и Babel
-Глава 2. Основы React
--Рендеринг элементов
--Компоненты
--Props
--State
--События
--Составные компоненты. Поиск в списке
-Глава 3. Формы
--Работа с формами
-
 ЗАДАНИЕ.
 Аналогично большинству предыдущих заданий, только все пункты надо реализовать с помощью библиотеки ReactJS.
 А именно, надо реализовать отображение таблицы, добавление, редактирование, удаление. Под таблицей надо динамически обновлять какое-нибудь аггрегированное значение (напр. сумма, среднее и т.п.). Изначально данные получить с помощью ajax-запроса.
@@ -20,151 +6,227 @@
 
 <!DOCTYPE html>
 <html>
-	<head>
-        <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
-        <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.25.0/babel.min.js"></script>
-		<meta charset="utf-8">
-	</head>
-	<body>
-        <div id="form"></div>
-        <div id="table"></div>
-	<script type="text/babel">
+<head>
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.25.0/babel.min.js"></script>
+    <meta charset="utf-8">
+</head>
+<body>
+    <div id="app"></div>
+    <script type="text/babel">
+        let students;
 
-var students = [];
+        class Table extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = {
+                    name: "",
+                    surname: "",
+                    age: null,
+                    avgMark: null,
+                    avgStudents: null,
+                    data: []
+                };
+           
+                this.nameAdd = this.nameAdd.bind(this);
+                this.surnameAdd = this.surnameAdd.bind(this);
+                this.ageAdd = this.ageAdd.bind(this);
+                this.avgMarkAdd = this.avgMarkAdd.bind(this);
 
- class Form extends React.Component {
-      constructor(props) {
-        super(props);
-        this.state = {name: "", surname: "", age: null, avgMark: null};
-   
-        this.nameAdd = this.nameAdd.bind(this);
-        this.surnameAdd = this.surnameAdd.bind(this);
-        this.ageAdd = this.ageAdd.bind(this);
-        this.avgMarkAdd = this.avgMarkAdd.bind(this);
-
-        this.handleSubmit = this.handleSubmit.bind(this);
-      }
-    nameAdd(e) {
-        let val = e.target.value;
-        this.setState({name: val, surname: this.state.surname, age: this.state.age, avgMark: this.state.avgMark});
-    }
-
-    surnameAdd(e) {
-        let val = e.target.value;    
-        this.setState({name: this.state.name, surname: val, age: this.state.age, avgMark: this.state.avgMark});
-    }
-
-    ageAdd(e) {
-        let val = +e.target.value;    
-        this.setState({name: this.state.name, surname: this.state.surname, age: val, avgMark: this.state.avgMark});
-    }
-
-    avgMarkAdd(e) {
-        let val = +e.target.value;    
-        this.setState({name: this.state.name, surname: this.state.surname, age: this.state.age, avgMark: val});
-    }
-   
-      handleSubmit(e) {
-        e.preventDefault();
-
-        let student = {
-            "name": this.state.name,
-            "surname": this.state.surname,
-            "age": this.state.age,
-            "avgMark": this.state.avgMark
-        };
-
-        students.push(student);
-        console.log(students);
-      }
-   
-      render() {
-        return (
-            <form onSubmit={this.handleSubmit}>
-                <p>Имя: <input type="text" value={this.state.name} onChange={this.nameAdd}/>
-                </p>
-                <p>Фамилия: <input type="text" value={this.state.surname} onChange={this.surnameAdd}/>
-                </p>
-                <p>Возраст: <input type="number" value={this.state.age} onChange={this.ageAdd}/>
-                </p>
-                <p>Средний балл: <input type="number" value={this.state.avgMark} onChange={this.avgMarkAdd}/>
-                </p>
-
-                <input type="submit" value="Добавить" />         
-            </form>       
-        );
-      }
-    }
-
-    class Request extends React.Component {
-      constructor(props) {
-        super(props);
-        this.state = {
-          error: null,
-          isLoaded: false,
-          data: []
-        };
-      }
-    
-      componentDidMount() {
-        fetch("students.json")
-          .then(response => response.json())
-          .then((result) => {
-            students = result;
-              this.setState({
-                isLoaded: true,
-                data: result
-              });
-            },
-            (error) => {
-              this.setState({
-                isLoaded: true,
-                error
-              });
+                this.studentAdd = this.studentAdd.bind(this);
+                this.studentEdit = this.studentEdit.bind(this);
+                this.studentDelete = this.studentDelete.bind(this);
             }
-          )
-      }
-    
-      render() {
-          return (
-            <table border="2" id="originTable">
-                <tr>
-                    <th>Имя</th>
-                    <th>Фамилия</th>
-                    <th>Возраст</th>
-                    <th>Средний балл</th>
-                </tr>
-                {this.state.data.map(student => (
-                <tr key={student.name} id={students.indexOf(student)}>
-                    <td id={'n' + students.indexOf(student)}>{student.name}</td>
-                    <td id={'s' + students.indexOf(student)}>{student.surname}</td>
-                    <td id={'a' + students.indexOf(student)}>{student.age}</td>
-                    <td id={'m' + students.indexOf(student)}>{student.avgMark}</td>
-                    <td><input type="button" value="Редактировать"/></td>
-                    <td><input type="button" value="Удалить"/></td>
-                </tr>
-              ))}
-            </table>
-          );      
-      }
-    }
 
-    function f(){
-        console.log(students);
-    }
+            componentDidMount() {
+                fetch("students.json")
+                .then(response => response.json())
+                .then((result) => {
+                    students = result;
 
-    ReactDOM.render(
-        <Form />,
-        document.getElementById("form")
-    )
+                    if(students.length) {
+                        const num = students.length;
+                        let sum = 0;
+                        
+                        for (let i = 0; i < students.length; i++){
+                            sum += +students[i]["avgMark"];
+                        }
 
-    ReactDOM.render(
-        <Request />,
-        document.getElementById("table")
-    ) 
+                        const avg = (sum / num).toFixed(1);
 
-    f();
-	</script>
-	</body>
+                        this.setState({
+                            avgStudents: avg,
+                            data: students
+                        });
+                    } else {
+                        this.setState({
+                            avgStudents: 0,
+                            data: []
+                        }); 
+                    }
+                });
+            }
+            
+            nameAdd(e) {
+                let val = e.target.value;
+                this.setState({name: val, surname: this.state.surname, age: this.state.age, avgMark: this.state.avgMark});
+            }
+
+            surnameAdd(e) {
+                let val = e.target.value;    
+                this.setState({name: this.state.name, surname: val, age: this.state.age, avgMark: this.state.avgMark});
+            }
+
+            ageAdd(e) {
+                let val = e.target.value;    
+                this.setState({name: this.state.name, surname: this.state.surname, age: val, avgMark: this.state.avgMark});
+            }
+
+            avgMarkAdd(e) {
+                let val = e.target.value;    
+                this.setState({name: this.state.name, surname: this.state.surname, age: this.state.age, avgMark: val});
+            }
+           
+            studentAdd(e) {
+                e.preventDefault();
+
+                let student = {
+                    "name": this.state.name,
+                    "surname": this.state.surname,
+                    "age": this.state.age,
+                    "avgMark": this.state.avgMark
+                };
+
+                students.push(student);
+                             
+                const num = students.length;
+                let sum = 0;
+                        
+                for (let i = 0; i < students.length; i++){
+                    sum += +students[i]["avgMark"];
+                }
+
+                const avg = (sum / num).toFixed(1);
+
+                this.setState({
+                    avgStudents: avg,
+                    data: students
+                });
+                
+            }
+
+            studentEdit(e) {
+                e.preventDefault();
+
+                const studentId = +e.currentTarget.id.slice(1);
+
+                students[studentId] = {
+                    "name": prompt("Редактировать поле Имя:", students[studentId]["name"]),
+                    "surname": prompt("Редактировать поле Фамилия:", students[studentId]["surname"]),
+                    "age": +prompt("Редактировать поле Возраст:", students[studentId]["age"]),
+                    "avgMark": +prompt("Редактировать поле Средний балл:", students[studentId]["avgMark"])
+                };
+
+                const num = students.length;
+                let sum = 0;
+                        
+                for (let i = 0; i < students.length; i++){
+                    sum += +students[i]["avgMark"];
+                }
+
+                const avg = (sum / num).toFixed(1);
+
+                this.setState({
+                    avgStudents: avg,
+                    data: students
+                });
+            }
+
+            studentDelete(e) {
+                e.preventDefault();
+
+                if (students.lenght == 1){
+                    this.setState({
+                        avgStudents: null,
+                        data: []
+                    });
+                } else {
+                    const studentId = +e.currentTarget.id.slice(1);
+
+                    let newStudents = [];
+
+                    for (let i = 0; i < students.length; i++){
+                        if (i != studentId){
+                            newStudents.push(students[i]);
+                        }    
+                    }
+                    students = newStudents;
+
+                    const num = students.length;
+                    let sum = 0;
+                            
+                    for (let i = 0; i < students.length; i++){
+                        sum += +students[i]["avgMark"];
+                    }
+
+                    const avg = (sum / num).toFixed(1);
+
+                    this.setState({
+                        avgStudents: avg,
+                        data: students
+                    });
+                }
+            }
+           
+            render() {
+                return (
+                    <div>
+                        <form onSubmit={this.studentAdd}>
+                            <p>Имя: <input type="text" value={this.state.name} onChange={this.nameAdd}/></p>
+                            <p>Фамилия: <input type="text" value={this.state.surname} onChange={this.surnameAdd}/></p>
+                            <p>Возраст: <input type="number" value={this.state.age} onChange={this.ageAdd}/></p>
+                            <p>Средний балл: <input type="number" value={this.state.avgMark} onChange={this.avgMarkAdd}/></p>
+
+                            <input type="submit" value="Добавить" />         
+                        </form>
+
+                        <table border="2">
+                            <tr>
+                                <th>Имя</th>
+                                <th>Фамилия</th>
+                                <th>Возраст</th>
+                                <th>Средний балл</th>
+                            </tr>
+
+                            {this.state.data.map(student => (
+                            <tr key={student.name}>
+                                <td>{student.name}</td>
+                                <td>{student.surname}</td>
+                                <td>{student.age}</td>
+                                <td>{student.avgMark}</td>
+                                <input type="button" value="Редактировать" onClick={this.studentEdit} id={'e' + this.state.data.indexOf(student)}/>
+                                <input type="button" value="Удалить" onClick={this.studentDelete} id={'d' + this.state.data.indexOf(student)}/>
+                            </tr>
+                            ))}
+
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <input type="text" value={`Общий: ${this.state.avgStudents}`}/>
+                            </tr>
+                        </table>    
+                    </div>   
+                );
+            }
+        }
+
+        ReactDOM.render(
+            <Table />,
+            document.getElementById("app")
+        )
+
+    </script>
+</body>
 </html>
