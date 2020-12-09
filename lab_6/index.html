@@ -1,9 +1,3 @@
-ЗАДАНИЕ.
-Аналогично большинству предыдущих заданий, только все пункты надо реализовать с помощью библиотеки ReactJS.
-А именно, надо реализовать отображение таблицы, добавление, редактирование, удаление. Под таблицей надо динамически обновлять какое-нибудь аггрегированное значение (напр. сумма, среднее и т.п.). Изначально данные получить с помощью ajax-запроса.
-
-Ещё всё надо реализовать с помощью возможностей ES6. Хотелось бы видеть использование классов, стрелочных функций, конструкций for..of, новых возможностей "склеивания" строк, промисов для Ajax-запросов.Если есть вопросы, то не стесняемся писать на этот адрес.
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,7 +9,7 @@
 <body>
     <div id="app"></div>
     <script type="text/babel">
-        let students;
+        let students = [];
 
         class Table extends React.Component {
             constructor(props) {
@@ -146,7 +140,9 @@
             studentDelete(e) {
                 e.preventDefault();
 
-                if (students.lenght == 1){
+                if (students.length == 1){
+                    students = [];
+
                     this.setState({
                         avgStudents: null,
                         data: []
@@ -199,14 +195,14 @@
                                 <th>Средний балл</th>
                             </tr>
 
-                            {this.state.data.map(student => (
-                            <tr key={student.name}>
+                            {this.state.data.map((student,index) => (
+                            <tr key={index}>
                                 <td>{student.name}</td>
                                 <td>{student.surname}</td>
                                 <td>{student.age}</td>
                                 <td>{student.avgMark}</td>
-                                <input type="button" value="Редактировать" onClick={this.studentEdit} id={'e' + this.state.data.indexOf(student)}/>
-                                <input type="button" value="Удалить" onClick={this.studentDelete} id={'d' + this.state.data.indexOf(student)}/>
+                                <input type="button" value="Редактировать" onClick={this.studentEdit} id={'e' + index}/>
+                                <input type="button" value="Удалить" onClick={this.studentDelete} id={'d' + index}/>
                             </tr>
                             ))}
 
@@ -226,7 +222,6 @@
             <Table />,
             document.getElementById("app")
         )
-
     </script>
 </body>
 </html>
